@@ -2,19 +2,43 @@
 
 ## Personal Time Capsule App
 
-### Overview
+## Overview
 
-"See Ya In A Bunch" is a personal time capsule application designed to capture, store, and revisit memories for future moments. Whether it's a heartfelt message, a cherished photo, a memorable video, or an inspiring audio clip, this app allows users to encapsulate their most precious moments and lock them away until a designated future date. With features like personalized messages, multimedia support, and time capsule sharing, users can create, cherish, and share memories with friends and family.
+"See Ya In A Bunch" is a personal time capsule application designed to capture, store, and revisit memories for future moments. Whether it's a heartfelt message, a cherished photo, a memorable video, or an inspiring audio clip, this app allows users to encapsulate their most precious moments and lock them away until a designated future date. With features like personalized messages, multimedia support, and time capsule sharing, users can preserve their most precious moments and cherish them over time.
 
-### Core Features
+## Core Features
 
-1. **User Authentication**: Secure user sign-up, login, logout, and session management.
-2. **Memory Capturing and Storage**: Capture and securely store memories, including text, photos, videos, and audio.
+1. **User Authentication**: Sign up, log in, and log out securely.
+2. **Memory Capturing and Storage**: Capture memories in various forms (text, photos, videos, audio) and securely store them.
 3. **Future Date Locking Mechanism**: Lock memories until specified future dates and receive reminders to revisit them.
-4. **Personalized Messages and Reminders**: Add custom messages and set up reminders for future events.
-5. **Multimedia Support**: Playback and interact with photos, videos, and audio recordings within memories.
+4. **Customizable Categories for Memories**: Organize memories into custom categories for easy navigation and retrieval.
+5. **Multimedia Support**: Playback and interact with multimedia memories, including photos, videos, and audio recordings.
 
-### Installation
+## Project Structure
+
+The project is structured around weekly sprints to implement and enhance the core features. Here's an overview of the weekly tasks:
+
+### Week 1: User Authentication
+
+Implement user registration, login, logout, session management, protected routes, and basic UI for authentication.
+
+### Week 2: Memory Capturing and Storage
+
+Design the database schema for memories, implement memory capturing APIs, integrate media upload support, and ensure seamless backend integration with the UI.
+
+### Week 3: Future Date Locking Mechanism
+
+Develop UI components for setting future date locks, implement backend functionality for locking memories until specified dates, and set up a reminder system for users.
+
+### Week 4: Customizable Memory Categories
+
+Enable users to create custom categories for organizing memories, implement memory tagging and category filtering, and provide management options for custom categories.
+
+### Week 5: Multimedia Support
+
+Enhance support for multimedia memories by developing UI components for media playback, optimizing media storage and compression, and thorough testing of multimedia functionalities.
+
+## Installation
 
 1. Clone the repository:
 
@@ -44,34 +68,6 @@
 
     Open your web browser and navigate to `http://localhost:8000`.
 
-### Usage
+## Contributing
 
-1. **User Authentication**:
-    - Sign up for a new account or log in with existing credentials.
-    - After logging in, you will be redirected to the dashboard.
-
-2. **Memory Capturing and Storage**:
-    - Click on the "Capture Memory" button to start creating a new memory.
-    - Choose the type of memory (text, photo, video, audio) and follow the prompts to capture and save it.
-
-3. **Future Date Locking Mechanism**:
-    - In the memory creation process, set a future date for the memory to be unlocked.
-    - Receive reminders as the designated date approaches, reminding you to revisit the memory.
-
-4. **Personalized Messages and Reminders**:
-    - When creating a memory, add a personalized message to accompany it.
-    - Set up reminders for future events, including custom messages.
-
-5. **Multimedia Support**:
-    - Memories can contain various multimedia elements such as photos, videos, and audio recordings.
-    - Playback and interact with multimedia content within memories.
-
-
-### Contributing
-
-We welcome contributions from the community! If you'd like to contribute to "See Ya In A Bunch", please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and ensure tests pass.
-4. Submit a pull request with a clear description of your changes.
+Contributions are welcome! If you'd like to contribute, please follow the guidelines provided in the repository and submit a pull request with your changes.
