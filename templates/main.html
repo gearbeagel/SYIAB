@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+    {% block title %}<title>Home</title>{% endblock %}
+<style>
+    .card {
+        background-color: #FEF26B;
+        border: 3px solid #FEE148;
+        border-radius: 20px;
+        color: #4E4826;
+    }
+    a, a:hover {
+        text-decoration: none;
+        color: inherit; 
+    }
+</style>
+</head>
+<body class="d-flex h-100 text-center text-bg-dark" style="background-color: #131A4E !important;">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-3">
+        <div>
+            <a href="{% url "home" %}" style="text-decoration: none"><h3 class="float-md-start mb-0">SYIAB</h3></a>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="dropdown-menu-end float-md-end">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2F3D99; border: none">
+                    Hello, {{ user.username }}!
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #2F3D99;"
+                    data-bs-theme="dark">
+                    <li><a class="dropdown-item" style="color: white" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" style="color: white" href="#">Boxes</a></li>
+                    <li><a class="dropdown-item" style="color: white" href="#">Settings</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="color: white" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block content %}
+            {% if not user.is_authenticated %}
+                <div class="px-3">
+                    <h1>See You in a Bunch.</h1>
+                    <p class="lead">"See you in a Bunch" (or SYIAB) is a web application, that serves as a time capsule.</p>
+                    <p class="lead">
+                        <a href="{% url 'registration' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Get
+                            Started</a>
+                    </p>
+                </div>
+            {% else %}
+                <div class="mt-1-">
+                    <h1>Your Boxes</h1> 
+                    {% if boxes %}
+                        <div class="mt-5 justify-content-center" data-masonry='{"percentPosition": true }'>
+                            {% for box in boxes %}
+                            <div class="col-sm-5 col-lg-3 mb-4">
+                                <div class="card p-5" style="margin: 10px">
+                                    <h3>{{ box.name }}</h3>
+                                    <h5>{{ box.creator.username }} - {{ box.humanized_opening_date }}</h5>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="mt-5">
+                            <h4>No boxes created yet. :c</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endblock %}
+    </main>
+
+    <footer class="mt-auto text-white-50">
+    <div class="float-md-start">
+        <p>@gearbeagel</p>
+    </div>
+        {% if user.is_authenticated %}
+        <div class="float-md-end">
+                <a href="{% url 'create' %}" class="btn btn-primary btn-floating"><i class="fas fa-plus"></i></a>
+            </div>
+        {% endif %}
+    </footer>
+</div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const grid = document.querySelector('.grid-container');
+        const masonry = new Masonry(grid, {
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-item',
+            gutter: 20
+        });
+        
+        const gridItems = document.querySelectorAll('.grid-item');
+
+    gridItems.forEach(function (item) {
+        const contentWidth = item.querySelector('.type-label').offsetWidth;
+        const contentHeight = item.querySelector('.type-label').offsetHeight;
+
+        const minContentWidth = contentWidth + 40;
+        const minContentHeight = contentHeight + 40; 
+
+        const maxWidth = 400; 
+        const maxHeight = 400; 
+
+        const randomWidth = Math.floor(Math.random() * (maxWidth - minContentWidth + 1)) + minContentWidth;
+        const randomHeight = Math.floor(Math.random() * (maxHeight - minContentHeight + 1)) + minContentHeight;
+
+        item.style.width = randomWidth + 'px';
+        item.style.height = randomHeight + 'px';
+    });
+        masonry.layout();
+    });
+</script>
+</html>

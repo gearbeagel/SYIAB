@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+
+{% block title %}<title>Login</title>{% endblock %}
+
+{% block content %}
+    <h1>Join our community!</h1>
+    <p class="lead">Getting started.</p>
+    <p class="lead">
+        <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-lg btn-light fw-bold border-white bg-white"
+           aria-label="Login with Google" title="Login with Google">
+            <i class="fab fa-google"></i> Login with Google
+        </a>
+    </p>
+{% endblock %}
