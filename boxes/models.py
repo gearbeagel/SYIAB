@@ -15,7 +15,7 @@ class Box(models.Model):
         return self.name
 
 
-class Component(models.Model):
+class Memory(models.Model):
     class ContentType(models.TextChoices):
         TEXT = 'T', _("Text")
         IMAGE = 'I', _("Image")
@@ -26,6 +26,7 @@ class Component(models.Model):
     name = models.CharField(max_length=100)
     box = models.ForeignKey(Box, on_delete=models.CASCADE)
     content_type = models.CharField(choices=ContentType.choices, max_length=1, default=ContentType.TEXT)
+    description = models.TextField()
 
     def __str__(self):
         return f"{self.name}({self.content_type})"

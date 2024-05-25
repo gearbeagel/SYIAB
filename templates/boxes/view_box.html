@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+
+{% block title %}<title>{{ box.name }}</title>{% endblock %}
+
+{% block content %}
+    <h1>Box Details</h1>
+    <div class="mt-5 mx-xxl-5 justify-content-center">
+            <div class="card p-5 text-lg-start mx-xxl-5 justify-content-center">
+                <p><strong>Name</strong>: {{ box.name }}</p>
+                <p><strong>Date of creation</strong>: {{ box.date_created }} ({{ date_created_h }})</p>
+                <p><strong>Date of opening</strong>: {{ box.date_opening }} ({{ date_opening_h }})</p>
+            </div>
+        <div class="mt-5">
+            <h2>Memories</h2>
+        {% if memories %}
+            {% for memory in memories %}
+            {% endfor %}
+        {% else %}
+            <div class="mt-5">
+                <h4>No memories added yet. :c</h4>
+            </div>
+        {% endif %}
+        <div class="mt-5" style="margin: 10px">
+                <a href="{% url 'create' %}" class="btn btn-danger btn-floating"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    <footer class="mt-auto text-white-50">
+    <div class="float-md-start">
+        <p>@gearbeagel</p>
+    </div>
+        {% if user.is_authenticated %}
+        <div class="float-md-end" style="margin: 10px">
+                <a href="{% url 'create' %}" class="btn btn-primary btn-floating"><i class="fas fa-plus"></i></a>
+            </div>
+        {% endif %}
+    </footer>
+{% endblock %}
