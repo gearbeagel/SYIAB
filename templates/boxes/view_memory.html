@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+
+{% block title %}<title>{{ memory.name }}</title>{% endblock %}
+
+{% block content %}
+    <h1>Memory Details</h1>
+    <div class="mt-5 mx-xxl-5 justify-content-center">
+        <div class="card p-5 text-lg-start mx-xxl-5 justify-content-center">
+            <div class="position-absolute top-0 end-0 p-3">
+            <a href="{% url 'delete_memory' box_id=box.id memory_id=memory.id %}"><i class="fa fa-trash" style="color: darkred"
+                                                              aria-hidden="true"></i></a>
+        </div>
+            <h4><strong>Name</strong>: {{ memory.name }}</h4>
+            <h4><strong>Description</strong>: {{ memory.description }}</h4>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h1>Contents</h1>
+        <div class="mt-5 p-5 mx-xxl-5 entered">
+            {% if memory.text_content %}
+                <h5><strong>Text Content</strong>:
+                    <br>{{ memory.text_content }}</h5>
+            {% endif %}
+
+            {% if memory.image_content %}
+                <img src="{{ memory.image_content.url }}" style="height: 25%; width: 25%; display: inline" alt="Image">
+            {% endif %}
+
+            {% if memory.video_content %}
+                <video controls>
+                    <source src="{{ memory.video_content }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+
+            {% if memory.audio_content %}
+                <audio controls>
+                    <source src="{{ memory.audio_content }}" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                </audio>
+            {% endif %}
+
+            {% if memory.file_content %}
+                <a href="{{ memory.file_content }}" target="_blank">Download File</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
