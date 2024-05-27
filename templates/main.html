@@ -30,7 +30,7 @@
 </head>
 <body class="d-flex h-100 text-center text-bg-dark" style="background-color: #131A4E !important;">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="mb-3">
+    <header class="mb-3 sticky-md-top">
         <div>
             <a href="{% url "home" %}" style="text-decoration: none"><h3 class="float-md-start mb-0">SYIAB</h3></a>
         </div>
@@ -43,7 +43,6 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #2F3D99;"
                     data-bs-theme="dark">
                     <li><a class="dropdown-item" style="color: white" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" style="color: white" href="#">Boxes</a></li>
                     <li><a class="dropdown-item" style="color: white" href="#">Settings</a></li>
                     <li>
                         <hr class="dropdown-divider">
@@ -55,6 +54,14 @@
     </header>
 
     <main>
+    {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
         {% block content %}
             {% if not user.is_authenticated %}
                 <div class="px-3">
@@ -66,16 +73,16 @@
                     </p>
                 </div>
             {% else %}
-                <div class="mt-1-">
-                    <h1>Your Boxes</h1> 
+                <div class="mt-1">
+                    <h1>Your Boxes <a href="{% url 'create' %}" class="btn btn-primary btn-floating" style="border-radius: 100%"><i class="fas fa-plus"></i></a></h1> 
                     {% if boxes %}
-                        <div class="mt-5 justify-content-center" data-masonry='{"percentPosition": true }'>
+                        <div class="grid-container mt-5 justify-content-center" data-masonry='{"percentPosition": true }'>
                             {% for box in boxes %}
                             <div class="col-sm-5 col-lg-3 mb-4">
-                                <div class="card p-5" style="margin: 10px">
+                                <a href="{% url 'view_box' box_id=box.id %}"><div class="card p-5" style="margin: 10px">
                                     <h3>{{ box.name }}</h3>
                                     <h5>{{ box.creator.username }} - {{ box.humanized_opening_date }}</h5>
-                                </div>
+                                </div></a>
                             </div>
                             {% endfor %}
                         </div>
@@ -89,16 +96,13 @@
         {% endblock %}
     </main>
 
-    <footer class="mt-auto text-white-50">
+{% block footer %}
+    <footer class="mt-xl-auto text-white-50 sticky-md-bottom">
     <div class="float-md-start">
         <p>@gearbeagel</p>
     </div>
-        {% if user.is_authenticated %}
-        <div class="float-md-end">
-                <a href="{% url 'create' %}" class="btn btn-primary btn-floating"><i class="fas fa-plus"></i></a>
-            </div>
-        {% endif %}
     </footer>
+{% endblock %}
 </div>
 </body>
 <script>

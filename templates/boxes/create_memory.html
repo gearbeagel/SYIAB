@@ -1,0 +1,99 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+{% block title %}<title>Create/Update Memory</title>{% endblock %}
+
+{% block content %}
+    <h1>Create/Update Memory</h1>
+    <div class="container mt-5 mb-5">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="box" value="{{ box.pk }}">
+        <div class="card p-5 mb-5">
+            <div class="mb-3">
+                <label for="{{ form.name.id_for_label }}" class="form-label">Name:</label>
+                {{ form.name }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.content_type.id_for_label }}" class="form-label">Content Type:</label>
+                {{ form.content_type }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.description.id_for_label }}" class="form-label">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <div id="text-content" class="content-section" style="display: none;">
+                <div class="mb-3">
+                    <label for="{{ form.text_content.id_for_label }}" class="form-label">Text Content:</label>
+                    {{ form.text_content }}
+                </div>
+            </div>
+            <div id="image-content" class="content-section" style="display: none;">
+                <div class="mb-3">
+                    <label for="{{ form.image_content.id_for_label }}" class="form-label">Image Content:</label>
+                    {{ form.image_content }}
+                </div>
+            </div>
+            <div id="video-content" class="content-section" style="display: none;">
+                <div class="mb-3">
+                    <label for="{{ form.video_content.id_for_label }}" class="form-label">Video Content:</label>
+                    {{ form.video_content }}
+                </div>
+            </div>
+            <div id="audio-content" class="content-section" style="display: none;">
+                <div class="mb-3">
+                    <label for="{{ form.audio_content.id_for_label }}" class="form-label">Audio Content:</label>
+                    {{ form.audio_content }}
+                </div>
+            </div>
+            <div id="file-content" class="content-section" style="display: none;">
+                <div class="mb-3">
+                    <label for="{{ form.file_content.id_for_label }}" class="form-label">File Content:</label>
+                    {{ form.file_content }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <script>
+        function updateContentFields() {
+            var contentType = document.getElementById('id_content_type').value;
+            var sections = ['text', 'image', 'video', 'audio', 'file'];
+
+            sections.forEach(function (section) {
+                var sectionContent = document.getElementById(section + '-content');
+                if (sectionContent) {
+                    sectionContent.style.display = 'none';
+                }
+            });
+
+            switch (contentType) {
+                case 'T':
+                case 'Text':
+                    document.getElementById('text-content').style.display = 'block';
+                    break;
+                case 'I':
+                case 'Image':
+                    document.getElementById('image-content').style.display = 'block';
+                    break;
+                case 'V':
+                case 'Video':
+                    document.getElementById('video-content').style.display = 'block';
+                    break;
+                case 'A':
+                case 'Audio':
+                    document.getElementById('audio-content').style.display = 'block';
+                    break;
+                case 'F':
+                case 'File':
+                    document.getElementById('file-content').style.display = 'block';
+                    break;
+            }
+        }
+
+        window.onload = function () {
+            updateContentFields();
+            document.getElementById('id_content_type').addEventListener('change', updateContentFields);
+        }
+    </script>
+{% endblock %}

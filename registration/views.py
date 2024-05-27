@@ -8,6 +8,8 @@ from boxes.models import Box
 
 def home(request):
     context = {}
+    message = ''
+    context['message'] = message
     if request.user.is_authenticated:
         boxes = Box.objects.filter(creator=request.user).all().order_by('-date_created')
         if boxes:
