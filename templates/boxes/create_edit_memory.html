@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Create/Update Memory</h1>
-    <div class="container mt-5 mb-5">
+    <div class="container d-grid justify-content-center mt-5 mb-5">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="box" value="{{ box.pk }}">

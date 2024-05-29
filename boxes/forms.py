@@ -10,7 +10,7 @@ class BoxForm(forms.ModelForm):
         fields = ('name', 'date_opening')
 
         widgets = {
-            'date_opening': forms.DateInput(attrs={'type': 'date'}),
+            'date_opening': forms.DateInput(attrs={'type': 'datetime-local'}),
         }
 
 

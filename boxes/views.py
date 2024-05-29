@@ -3,6 +3,7 @@ from django.contrib.humanize.templatetags import humanize
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
+from SYIAB import settings
 from boxes.forms import BoxForm, MemoryForm
 from boxes.models import Box, Memory
 
@@ -13,19 +14,20 @@ def create_a_box(request):
     context = {}
     form = BoxForm(request.POST)
     context['form'] = form
-    if request.method == "POST":
-        if form.is_valid():
-            box = form.save(commit=False)
-            box.creator = request.user
-            if form.cleaned_data['date_opening'] < timezone.now():
-                message = "The date can't be in the past :/"
-                context['message'] = message
-                return render(request, 'boxes/create_box.html', context)
-            box.save()
-            message = "Your box has been created."
-            messages.success(request, message, extra_tags='success')
-            return redirect('home')
-    return render(request, 'boxes/create_box.html', context)
+    if request.method != "POST":
+        return render(request, 'boxes/create_edit_box.html', context)
+    if form.is_valid():
+        box = form.save(commit=False)
+        box.creator = request.user
+        if form.cleaned_data['date_opening'] < timezone.now():
+            message = "The date can't be in the past :/"
+            messages.error(request, message)
+            print(message)
+            return render(request, 'boxes/create_edit_box.html', context)
+        box.save()
+        message = "Your box has been created."
+        messages.success(request, message, extra_tags='success')
+        return redirect('home')
 
 
 def view_box(request, box_id):
@@ -45,17 +47,16 @@ def create_memory(request, box_id):
     form = MemoryForm()
     message = ''
     context['form'] = form
-    if request.method == 'POST':
-        form = MemoryForm(request.POST, request.FILES)
-        if form.is_valid():
-            memory = form.save(commit=False)
-            memory.box = box
-            memory.save()
-            message = "Your memory has been created."
-            messages.success(request, message, extra_tags='success')
-            return redirect('view_box', box_id=box.pk)
-
-    return render(request, 'boxes/create_memory.html', context)
+    if request.method != 'POST':
+        return render(request, 'boxes/create_edit_memory.html', context)
+    form = MemoryForm(request.POST, request.FILES)
+    if form.is_valid():
+        memory = form.save(commit=False)
+        memory.box = box
+        memory.save()
+        message = "Your memory has been created."
+        messages.success(request, message, extra_tags='success')
+        return redirect('view_box', box_id=box.pk)
 
 
 def view_memory(request, box_id, memory_id):
@@ -72,7 +73,7 @@ def delete_memory(request, box_id, memory_id):
     box = get_object_or_404(Box, pk=box_id)
     memory.delete()
     message = "Your memory has been deleted."
-    messages.success(request, message)
+    messages.info(request, message)
     return redirect('view_box', box_id=box.pk)
 
 
@@ -82,3 +83,39 @@ def delete_box(request, box_id):
     message = "Your box has been deleted."
     messages.info(request, message)
     return redirect('home')
+
+
+def lock_box(request, box_id):
+    box = get_object_or_404(Box, pk=box_id)
+
+    if box is None:
+        pass
+
+    box.status = Box.Statuses.LOCKED
+    box.save()
+
+    message = 'Your box has been locked successfully!'
+    messages.success(request, message)
+    return redirect('home')
+
+
+def edit_box(request, box_id):
+    box = get_object_or_404(Box, pk=box_id)
+    if not box:
+        pass
+    form = BoxForm(request.POST, instance=box)
+    context = {'box': box, 'form': form}
+    if form.is_valid():
+        form.save()
+        message = "Your box has been edited."
+        messages.success(request, message, extra_tags='success')
+        return redirect('view_box', box_id=box.pk)
+    return render(request, 'boxes/create_edit_box.html', context)
+
+
+def unlock_box(box_id):
+    box = Box.objects.get(pk=box_id)
+    if timezone.now() >= box.date_opening:
+        box.status = Box.Statuses.OPENED
+        print("Task completed!")
+        box.save()

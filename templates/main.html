@@ -13,20 +13,24 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
+            integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
+            async></script>
     {% block title %}<title>Home</title>{% endblock %}
-<style>
-    .card {
-        background-color: #FEF26B;
-        border: 3px solid #FEE148;
-        border-radius: 20px;
-        color: #4E4826;
-    }
-    a, a:hover {
-        text-decoration: none;
-        color: inherit; 
-    }
-</style>
+    <style>
+        .card {
+            background-color: #FEF26B;
+            border: 3px solid #FEE148;
+            border-radius: 20px;
+            color: #4E4826;
+            width: fit-content;
+        }
+
+        a, a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
 </head>
 <body class="d-flex h-100 text-center text-bg-dark" style="background-color: #131A4E !important;">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -54,7 +58,8 @@
     </header>
 
     <main>
-    {% if messages %}
+        <div class="position-fixed top-0 end-0 p-3 mt-5"> 
+            {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                         {{ message }}
@@ -62,11 +67,13 @@
                     </div>
                 {% endfor %}
             {% endif %}
+        </div>
         {% block content %}
             {% if not user.is_authenticated %}
                 <div class="px-3">
                     <h1>See You in a Bunch.</h1>
-                    <p class="lead">"See you in a Bunch" (or SYIAB) is a web application, that serves as a time capsule.</p>
+                    <p class="lead">"See you in a Bunch" (or SYIAB) is a web application, that serves as a time
+                        capsule.</p>
                     <p class="lead">
                         <a href="{% url 'registration' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Get
                             Started</a>
@@ -74,16 +81,33 @@
                 </div>
             {% else %}
                 <div class="mt-1">
-                    <h1>Your Boxes <a href="{% url 'create' %}" class="btn btn-primary btn-floating" style="border-radius: 100%"><i class="fas fa-plus"></i></a></h1> 
+                    <h1>Your Boxes</h1>
+                    <a href="{% url 'create' %}" title='Create a new box'>
+                        <button class="btn btn-primary btn-floating" style="border-radius: 20px">Create a new box <i
+                            class="fas fa-plus"></i></button></a>
                     {% if boxes %}
-                        <div class="grid-container mt-5 justify-content-center" data-masonry='{"percentPosition": true }'>
+                        <div class="grid-container mt-5 justify-content-center"
+                             data-masonry='{"percentPosition": true }'>
                             {% for box in boxes %}
-                            <div class="col-sm-5 col-lg-3 mb-4">
-                                <a href="{% url 'view_box' box_id=box.id %}"><div class="card p-5" style="margin: 10px">
-                                    <h3>{{ box.name }}</h3>
-                                    <h5>{{ box.creator.username }} - {{ box.humanized_opening_date }}</h5>
-                                </div></a>
-                            </div>
+                                <div class="col-sm-5 col-lg-3 mb-4 mx-lg-5">
+                                    {% if box.status == 'E' or box.status == "O" %}
+                                        <a href="{% url 'view_box' box_id=box.id %}">
+                                        <div class="card p-5" style="margin: 10px">
+                                        <h3>{{ box.name }}</h3>
+                                        <h5>{{ box.creator.username }} - {{ box.humanized_opening_date }}</h5>
+                                    {% else %}
+                                        <div class="card p-5 mx-5" style="margin: 10px">
+                                        <h3>{{ box.name }}</h3>
+                                        <h5>{{ box.creator.username }} - {{ box.humanized_opening_date }}</h5>
+                                    {% endif %}
+                                    {% if box.status == "L" %}
+                                        <h5 style="color: darkred">[LOCKED]</h5>
+                                    {% endif %}
+                                    {% if box.status == "O" %}
+                                        <h5 style="color: darkgreen">[OPEN IT!]</h5>
+                                    {% endif %}
+                                    </div></a>
+                                </div>
                             {% endfor %}
                         </div>
                     {% else %}
@@ -96,42 +120,42 @@
         {% endblock %}
     </main>
 
-{% block footer %}
-    <footer class="mt-xl-auto text-white-50 sticky-md-bottom">
-    <div class="float-md-start">
-        <p>@gearbeagel</p>
-    </div>
-    </footer>
-{% endblock %}
+    {% block footer %}
+        <footer class="mt-xl-auto text-white-50 sticky-md-bottom">
+            <div class="float-md-start">
+                <p>@gearbeagel</p>
+            </div>
+        </footer>
+    {% endblock %}
 </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const grid = document.querySelector('.grid-container');
         const masonry = new Masonry(grid, {
             itemSelector: '.grid-item',
             columnWidth: '.grid-item',
             gutter: 20
         });
-        
+
         const gridItems = document.querySelectorAll('.grid-item');
 
-    gridItems.forEach(function (item) {
-        const contentWidth = item.querySelector('.type-label').offsetWidth;
-        const contentHeight = item.querySelector('.type-label').offsetHeight;
+        gridItems.forEach(function (item) {
+            const contentWidth = item.querySelector('.type-label').offsetWidth;
+            const contentHeight = item.querySelector('.type-label').offsetHeight;
 
-        const minContentWidth = contentWidth + 40;
-        const minContentHeight = contentHeight + 40; 
+            const minContentWidth = contentWidth + 40;
+            const minContentHeight = contentHeight + 40;
 
-        const maxWidth = 400; 
-        const maxHeight = 400; 
+            const maxWidth = 400;
+            const maxHeight = 400;
 
-        const randomWidth = Math.floor(Math.random() * (maxWidth - minContentWidth + 1)) + minContentWidth;
-        const randomHeight = Math.floor(Math.random() * (maxHeight - minContentHeight + 1)) + minContentHeight;
+            const randomWidth = Math.floor(Math.random() * (maxWidth - minContentWidth + 1)) + minContentWidth;
+            const randomHeight = Math.floor(Math.random() * (maxHeight - minContentHeight + 1)) + minContentHeight;
 
-        item.style.width = randomWidth + 'px';
-        item.style.height = randomHeight + 'px';
-    });
+            item.style.width = randomWidth + 'px';
+            item.style.height = randomHeight + 'px';
+        });
         masonry.layout();
     });
 </script>

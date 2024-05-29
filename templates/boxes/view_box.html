@@ -5,36 +5,63 @@
 
 {% block content %}
     <h1>Box Details</h1>
-    <div class="mt-5 mx-xxl-5 justify-content-center">
-    <div class="card p-5 text-lg-start mx-xxl-5 justify-content-center">
-        <div class="position-absolute top-0 end-0 p-3">
-            <a href="{% url 'delete_box' box_id=box.id %}"><i class="fa fa-trash" style="color: darkred"
-                                                              aria-hidden="true"></i></a>
-        </div>
-        <h4><strong>Name</strong>: {{ box.name }}</h4>
-        <h4><strong>Date of creation</strong>: {{ box.date_created }} ({{ date_created_h }})</h4>
-        <h4><strong>Date of opening</strong>: {{ box.date_opening }} ({{ date_opening_h }})</h4>
-    </div>
-    <div class="mt-5">
-        <h2>Memories <a href="{% url 'create_memory' box.id %}" class="btn btn-success" style="border-radius: 100%"><i
-                class="fas fa-plus"></i></a></h2>
-        {% if memories %}
-            <div class="grid-container mt-5 justify-content-center" data-masonry='{"percentPosition": true }'>
-            {% for memory in memories %}
-                <div class="col-sm-5 col-lg-3 mb-4">
-                    <a href="{% url 'view_memory' box_id=box.id memory_id=memory.id %}">
-                        <div class="card p-5" style="margin: 10px">
-                            <h3>{{ memory.name }}</h3>
-                            <h5>{{ memory.description }}</h5>
-                        </div>
-                    </a>
+    <div class="d-grid mt-5 mx-xxl-5 justify-content-center">
+        <div class="card p-5 mx-auto justify-content-center position-relative">
+            <div class="dropdown-menu-end position-absolute top-0 end-0 p-3 float-md-end">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="background-color: #CABB65; color: #4E4826; border: none">
+                    Settings
+                </button>
+                <div class="position-absolute top-0 end-0 p-3 float-md-end text-lg-center">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #CABB65;"
+                        data-bs-theme="dark">
+                        <li><a href="{% url 'lock_box' box_id=box.id %}" title="Lock this box"><i
+                                class="dropdown-item fa fa-lock" style="color: saddlebrown;"
+                                aria-hidden="true"> Lock</i></a></li>
+                        <li><a href="{% url 'edit_box' box_id=box.id %}" title="Edit this box"><i
+                                class="dropdown-item fa fa-pencil" style="color: darkgreen"
+                                aria-hidden="true"> Edit</i></a></li>
+                        <li><a href="{% url 'delete_box' box_id=box.id %}" title="Delete this box"><i
+                                class="dropdown-item fa fa-trash" style="color: darkred"
+                                aria-hidden="true"> Delete</i></a></li>
+                    </ul>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="mt-5">
-                <h4>No memories added yet. :c</h4>
             </div>
-        {% endif %}
+            <div class="text-lg-start">
+                <h4><strong>Name</strong>: {{ box.name }}</h4>
+                <h4><strong>Date of creation</strong>: {{ box.date_created }} ({{ date_created_h }})</h4>
+                <h4><strong>Date of opening</strong>: {{ box.date_opening }} ({{ date_opening_h }})</h4>
+            </div>
+        </div>
+        <br>
+        <div class="mt-5">
+            <h2>Memories</h2>
+            <a href="{% url 'create_memory' box.id %}" title='Create a new memory'>
+                <button class="btn btn-success" style="border-radius: 20px">Create a new memory <i
+                        class="fas fa-plus"></i></button>
+            </a>
+            {% if memories %}
+                <div class="grid-container mt-5" data-masonry='{"percentPosition": true }'
+                     style="width: 1200px;">
+                    {% for memory in memories %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4 mx-5">
+                            <a href="{% url 'view_memory' box_id=box.id memory_id=memory.id %}">
+                                <div class="card p-5 mx-auto">
+                                    <div class="text-lg-start">
+                                        <h3>{{ memory.name }}</h3>
+                                        <h5>{{ memory.description }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mt-5">
+                    <h4>No memories added yet. :c</h4>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

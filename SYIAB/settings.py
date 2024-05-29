@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'django_bootstrap5',
     "registration.apps.RegistrationConfig",
-    "boxes.apps.BoxesConfig"
+    "boxes.apps.BoxesConfig",
+    "profilepage.apps.ProfilepageConfig"
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kyiv'
 
 USE_I18N = True
 

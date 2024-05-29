@@ -5,22 +5,37 @@
 
 {% block content %}
     <h1>Memory Details</h1>
-    <div class="mt-5 mx-xxl-5 justify-content-center">
-        <div class="card p-5 text-lg-start mx-xxl-5 justify-content-center">
-            <div class="position-absolute top-0 end-0 p-3">
-            <a href="{% url 'delete_memory' box_id=box.id memory_id=memory.id %}"><i class="fa fa-trash" style="color: darkred"
-                                                              aria-hidden="true"></i></a>
-        </div>
-            <h4><strong>Name</strong>: {{ memory.name }}</h4>
-            <h4><strong>Description</strong>: {{ memory.description }}</h4>
+    <div class="d-grid mt-5 mx-xxl-5 justify-content-center">
+        <div class="card p-xl-5 mx-xxl-5">
+            <div class="dropdown-menu-end position-absolute top-0 end-0 p-3 float-md-end">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="background-color: #CABB65; color: #4E4826; border: none">
+                    Settings
+                </button>
+                <div class="position-absolute top-0 end-0 p-3 float-md-end text-lg-center">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #CABB65;"
+                        data-bs-theme="dark">
+                        <li><a href="{% url 'delete_box' box_id=box.id %}" title="Delete this box"><i
+                                class="dropdown-item fa fa-trash" style="color: darkred"
+                                aria-hidden="true"> Delete</i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mx-5 my-3 text-lg-start">
+                <h4><strong>Name</strong>: {{ memory.name }}</h4>
+                <h4><strong>Description</strong>: {{ memory.description }}</h4>
+            </div>
         </div>
     </div>
     <div class="mt-5">
         <h1>Contents</h1>
-        <div class="mt-5 p-5 mx-xxl-5 entered">
+        <div class="d-grid mt-5 p-5 mx-xxl-5 justify-content-center">
             {% if memory.text_content %}
-                <h5><strong>Text Content</strong>:
-                    <br>{{ memory.text_content }}</h5>
+                <div class="card p-5 text-lg-start mx-xxl-5 justify-content-center">
+                    <h5><strong>Text Content</strong>:
+                        <br>{{ memory.text_content }}</h5>
+                </div>
             {% endif %}
 
             {% if memory.image_content %}
@@ -29,14 +44,14 @@
 
             {% if memory.video_content %}
                 <video controls>
-                    <source src="{{ memory.video_content }}" type="video/mp4">
+                    <source src="{{ memory.video_content.url }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             {% endif %}
 
             {% if memory.audio_content %}
                 <audio controls>
-                    <source src="{{ memory.audio_content }}" type="audio/mpeg">
+                    <source src="{{ memory.audio_content.url }}" type="audio/mpeg">
                     Your browser does not support the audio tag.
                 </audio>
             {% endif %}

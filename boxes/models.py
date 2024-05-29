@@ -1,11 +1,14 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.dispatch import Signal
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
+
+box_unlocked = Signal()
 
 class Box(models.Model):
     class Statuses(models.TextChoices):
