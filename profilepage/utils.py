@@ -1,0 +1,22 @@
+motivational_quotes = [
+    "The only way to do great work is to love what you do.",
+    "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.",
+    "Your time is limited, don't waste it living someone else's life.",
+    "The best way to predict the future is to create it.",
+    "You miss 100% of the shots you don't take.",
+    "Believe you can and you're halfway there.",
+    "The only place where success comes before work is in the dictionary.",
+    "Don't watch the clock; do what it does. Keep going.",
+    "It does not matter how slowly you go as long as you do not stop.",
+    "Start where you are. Use what you have. Do what you can.",
+    "The future belongs to those who believe in the beauty of their dreams.",
+    "The harder you work for something, the greater you'll feel when you achieve it.",
+    "Success usually comes to those who are too busy to be looking for it.",
+    "Don't be afraid to give up the good to go for the great.",
+    "I find that the harder I work, the more luck I seem to have.",
+    "Opportunities don't happen, you create them.",
+    "Don't limit your challenges. Challenge your limits.",
+    "The only limit to our realization of tomorrow is our doubts of today.",
+    "It always seems impossible until it's done.",
+    "The secret of getting ahead is getting started."
+]

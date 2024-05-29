@@ -111,11 +111,3 @@ def edit_box(request, box_id):
         messages.success(request, message, extra_tags='success')
         return redirect('view_box', box_id=box.pk)
     return render(request, 'boxes/create_edit_box.html', context)
-
-
-def unlock_box(box_id):
-    box = Box.objects.get(pk=box_id)
-    if timezone.now() >= box.date_opening:
-        box.status = Box.Statuses.OPENED
-        print("Task completed!")
-        box.save()

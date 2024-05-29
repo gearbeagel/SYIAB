@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+
+{% block title %}<title>Profile Settings</title>{% endblock %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col d-grid justify-content-center mb-5 mt-5 justify-content-center">
+            <div class="card col p-5" style="width: 750px">
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <br>
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

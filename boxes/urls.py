@@ -12,4 +12,4 @@ urlpatterns = [
     path('boxes/<int:box_id>/<int:memory_id>/delete/', boxes.views.delete_memory, name='delete_memory'),
     path('boxes/<int:box_id>/lock/', boxes.views.lock_box, name='lock_box'),
     path('boxes/<int:box_id>/edit/', boxes.views.edit_box, name='edit_box'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

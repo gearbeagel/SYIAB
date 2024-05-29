@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+{% load socialaccount %}
+
+{% block title %}<title>{{ user.username }}</title>{% endblock %}
+
+{% block content %}
+    <h1>{{ user.username }}'s profile</h1>
+    <div class="d-grid mt-5 mx-xxl-5 justify-content-center">
+        <div class="col grid-item mx-xxl-5">
+            <div class="card mx-xxl-5">
+                <div class="card-body p-5 text-center" style="width: 600px;">
+                    <img src="{{ profile_picture.profile_picture.url }}" class="rounded-circle mb-3"
+                         alt="{{ user.username }}" style="width: 150px; height: 150px; background-color: white">
+                    <h3>{{ user.username }}</h3>
+                    <hr>
+                    <h6><strong>Your motivation for the day</strong>: {{ motivation }}</h6>
+                    {% if user == request.user %}
+                        <div class="position-absolute top-0 end-0 p-3 float-md-end text-lg-center">
+                            <a href="{% url 'edit_profile' username=user.username %}" title="Edit Profile"><i
+                                    class="dropdown-item fa fa-gear" style="color: grey"
+                                    aria-hidden="true"> Edit</i></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-grid mt-5 mx-xxl-5 justify-content-center">
+                <div class="card mb-3">
+                    <div class="card-body p-5 text-lg-start" style="width: 600px">
+                        <h4 class="card-title">Profile Details</h4>
+                        <hr>
+                        {% if user.first_name and user.last_name %}
+                            <h6><strong>Full name:</strong> {{ user.first_name }} {{ user.last_name }}</h6>
+                        {% endif %}
+                        <h6><strong>Email:</strong> {{ user.email }}</h6>
+                        <h6><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
