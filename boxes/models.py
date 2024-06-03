@@ -5,10 +5,8 @@ from django.dispatch import Signal
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-
 # Create your models here.
 
-box_unlocked = Signal()
 
 class Box(models.Model):
     class Statuses(models.TextChoices):
@@ -16,11 +14,20 @@ class Box(models.Model):
         LOCKED = 'L', _('Locked')
         OPENED = 'O', _('Opened')
 
+    class Categories(models.TextChoices):
+        FAMILY = 'FA', _('Family')
+        TRAVEL = 'TR', _('Travel')
+        FRIENDS = 'FR', _('Friends')
+        LOVE = 'LO', _('Love')
+        HOBBY = 'HO', _('Hobby')
+        OTHER = 'O', _('Other')
+
     name = models.CharField(max_length=100)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     date_opening = models.DateTimeField()
     status = models.CharField(choices=Statuses.choices, default=Statuses.EDITED, max_length=100)
+    category = models.CharField(choices=Categories.choices, default=Categories.OTHER, max_length=100)
 
     def __str__(self):
         return self.name

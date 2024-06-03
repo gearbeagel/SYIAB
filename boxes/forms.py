@@ -7,7 +7,7 @@ from boxes.models import Box, Memory
 class BoxForm(forms.ModelForm):
     class Meta:
         model = Box
-        fields = ('name', 'date_opening')
+        fields = ('name', 'date_opening', 'category')
 
         widgets = {
             'date_opening': forms.DateInput(attrs={'type': 'datetime-local'}),

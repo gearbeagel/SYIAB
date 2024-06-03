@@ -1,7 +1,9 @@
 import random
 
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 
 from profilepage import utils
@@ -12,7 +14,7 @@ from profilepage.models import ProfilePicture
 # Create your views here.
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
-    profile_picture = get_object_or_404(ProfilePicture, user=user)
+    profile_picture, created = ProfilePicture.objects.get_or_create(user=user)
     motivation = random.choice(utils.motivational_quotes).lower()
 
     context = {
@@ -36,3 +38,13 @@ def edit_profile(request, username):
             return redirect('view_profile', username=form.cleaned_data['username'])
 
     return render(request, 'profile/profile_settings.html', {'form': form})
+
+
+def delete_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    if user != request.user:
+        raise Http404("You do not have permission to delete this profile.")
+    logout(request)
+    user.delete()
+    messages.success(request, 'Your profile has been deleted.')
+    return redirect('home')
