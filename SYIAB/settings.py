@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     "registration.apps.RegistrationConfig",
     "boxes.apps.BoxesConfig",
-    "profilepage.apps.ProfilepageConfig"
+    "profilepage.apps.ProfilepageConfig",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

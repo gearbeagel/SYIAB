@@ -1,17 +1,20 @@
 import random
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from profilepage import utils
 from profilepage.forms import ProfileForm
 from profilepage.models import ProfilePicture
+from profilepage.serializers import UserSerializer
 
 
-# Create your views here.
+# Function-based views for rendering HTML pages
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile_picture, created = ProfilePicture.objects.get_or_create(user=user)
@@ -48,3 +51,34 @@ def delete_profile(request, username):
     user.delete()
     messages.success(request, 'Your profile has been deleted.')
     return redirect('home')
+
+
+# DRF ViewSet for API
+class ProfileViewSet(viewsets.ViewSet):
+    queryset = User.objects.all()
+
+    def retrieve(self, request, pk=None):
+        user = get_object_or_404(User, username=pk)
+        serializer = UserSerializer(user)
+        motivation = random.choice(utils.motivational_quotes).lower()
+        data = serializer.data
+        data['motivation'] = motivation
+        return Response(data)
+
+    @action(detail=True, methods=['put'])
+    def edit(self, request, pk=None):
+        user = get_object_or_404(User, username=pk)
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['delete'])
+    def delete(self, request, pk=None):
+        user = get_object_or_404(User, username=pk)
+        if user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        logout(request)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

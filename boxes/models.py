@@ -1,11 +1,20 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.db import models
-from django.dispatch import Signal
+from django.dispatch import receiver
+from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
+
+def generate_unique_slug(model_instance, slug_field, slug_value):
+    slug = slugify(slug_value)
+    model_class = model_instance.__class__
+    unique_slug = slug
+    num = 1
+    while model_class.objects.filter(**{slug_field: unique_slug}).exists():
+        unique_slug = f"{slug}-{num}"
+        num += 1
+    return unique_slug
 
 
 class Box(models.Model):
@@ -23,6 +32,7 @@ class Box(models.Model):
         OTHER = 'O', _('Other')
 
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     date_opening = models.DateTimeField()
@@ -31,6 +41,11 @@ class Box(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_unique_slug(self, 'slug', self.name)
+        super().save(*args, **kwargs)
 
 
 class Memory(models.Model):
@@ -42,6 +57,7 @@ class Memory(models.Model):
         FILE = 'F', _("File")
 
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
     box = models.ForeignKey(Box, on_delete=models.CASCADE)
     content_type = models.CharField(choices=ContentType.choices, max_length=1, default=ContentType.TEXT)
     description = models.TextField()
@@ -53,3 +69,8 @@ class Memory(models.Model):
 
     def __str__(self):
         return f"{self.name}({self.content_type})"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_unique_slug(self, 'slug', self.name)
+        super().save(*args, **kwargs)

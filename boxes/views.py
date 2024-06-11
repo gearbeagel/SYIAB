@@ -2,14 +2,18 @@ from django.contrib import messages
 from django.contrib.humanize.templatetags import humanize
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 
 from SYIAB import settings
 from boxes.forms import BoxForm, MemoryForm
 from boxes.models import Box, Memory
+from boxes.serializers import BoxSerializer, MemorySerializer
 
 
 # Create your views here.
 
+# Function-based views for rendering HTML pages
 def create_a_box(request):
     context = {}
     form = BoxForm(request.POST)
@@ -111,3 +115,55 @@ def edit_box(request, box_id):
         messages.success(request, message, extra_tags='success')
         return redirect('view_box', box_id=box.pk)
     return render(request, 'boxes/create_edit_box.html', context)
+
+
+# DRF ViewSet for API
+class BoxViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        box = get_object_or_404(Box, pk=pk)
+        serializer = BoxSerializer(box)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = BoxSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+        box = get_object_or_404(Box, pk=pk)
+        serializer = BoxSerializer(box, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        box = get_object_or_404(Box, pk=pk)
+        box.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class MemoryViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        memory = get_object_or_404(Memory, pk=pk)
+        serializer = MemorySerializer(memory)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = MemorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, pk=None):
+        memory = get_object_or_404(Memory, pk=pk)
+        serializer = MemorySerializer(memory, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        memory = get_object_or_404(Memory, pk=pk)
+        memory.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

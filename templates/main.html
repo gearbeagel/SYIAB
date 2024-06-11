@@ -47,7 +47,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #2F3D99;"
                     data-bs-theme="dark">
                     <li><a class="dropdown-item" style="color: white" href="{% url 'view_profile' username=user.username %}">Profile</a></li>
-                    <li><a class="dropdown-item" style="color: white" href="{% url 'edit_profile' username=user.username %}">Settings</a></li>
+                    <li><a class="dropdown-item" style="color: white" href="/api">Django Rest Framework</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -82,7 +82,7 @@
             {% else %}
                 <div class="mt-1">
                     <h1>Your Boxes</h1>
-                    <a href="{% url 'create' %}" title='Create a new box'>
+                    <a href="{% url 'create_box' %}" title='Create a new box'>
                         <button class="btn btn-primary btn-floating" style="border-radius: 20px">Create a new box <i
                             class="fas fa-plus"></i></button></a>
                     {% if boxes %}

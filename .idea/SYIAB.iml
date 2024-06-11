@@ -29,6 +29,7 @@
         <option value="$MODULE_DIR$/templates" />
         <option value="$MODULE_DIR$/templates/registration" />
         <option value="$MODULE_DIR$/templates/boxes" />
+        <option value="$MODULE_DIR$/templates/profile" />
       </list>
     </option>
   </component>
