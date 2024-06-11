@@ -1,24 +1,24 @@
 {% extends "main.html" %}
-{% block title %}<title>Register</title>{% endblock %}
+{% block title %}<title>Login</title>{% endblock %}
 {% block content %}
     <h1>Join our community!</h1>
-    <p class="lead">Registration</p>
+    <p class="lead">Log in</p>
     <div id="auth-form">
-        <form id="registration-form" method="post" action="{% url 'registration' %}">
+        <form id="login-form" method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <div class="col d-grid justify-content-center mb-5 mt-5 justify-content-center">
+            <div class="col d-grid justify-content-center mb-5 mt-5">
                 <div class="card col p-5" style="width: 750px">
-                    {% for field in registration_form %}
+                    {% for field in login_form %}
                         <div class="mb-3">
                             <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
                             <br>
                             {{ field }}
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                 </div>
             </div>
         </form>
-        <p id="toggle-link">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        <p id="toggle-link">Don't have an account? <a href="{% url 'registration' %}">Register</a></p>
     </div>
 {% endblock %}

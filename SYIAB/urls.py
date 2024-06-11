@@ -24,7 +24,6 @@ from SYIAB import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
     path('', registration.views.home, name='home'),
     path('', include('registration.urls')),
     path('', include('boxes.urls')),

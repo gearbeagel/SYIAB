@@ -1,6 +1,4 @@
 {% extends "main.html" %}
-{% load socialaccount %}
-
 {% block title %}<title>{{ user.username }}</title>{% endblock %}
 
 {% block content %}
@@ -31,7 +29,9 @@
                         {% if user.first_name and user.last_name %}
                             <h6><strong>Full name:</strong> {{ user.first_name }} {{ user.last_name }}</h6>
                         {% endif %}
-                        <h6><strong>Email:</strong> {{ user.email }}</h6>
+                        {% if user.email %}
+                            <h6><strong>Email:</strong> {{ user.email }}</h6>
+                        {% endif %}
                         <h6><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</h6>
                     </div>
                 </div>
