@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from boxes.models import Box, Memory
 
@@ -23,7 +22,8 @@ class MemoryForm(forms.ModelForm):
 
     class Meta:
         model = Memory
-        fields = ['box', 'name', 'content_type', 'description', 'text_content', 'image_content', 'video_content', 'audio_content', 'file_content']
+        fields = ['box', 'name', 'content_type', 'description', 'text_content', 'image_content', 'video_content',
+                  'audio_content', 'file_content']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }

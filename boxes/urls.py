@@ -1,10 +1,8 @@
-from django.conf.urls.static import static
 from django.urls import path
 from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
 import boxes.views as bxv
-from SYIAB import settings
 
 router = DefaultRouter()
 router.register(r'boxes', bxv.BoxViewSet, basename='box')

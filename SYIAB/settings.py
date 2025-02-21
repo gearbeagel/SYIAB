@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 import django_on_heroku
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     "boxes.apps.BoxesConfig",
     "profilepage.apps.ProfilepageConfig",
     'rest_framework',
+    'pytest'
 ]
 
 MIDDLEWARE = [
@@ -66,7 +68,6 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 ROOT_URLCONF = 'SYIAB.urls'
 
@@ -136,6 +137,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if 'test' in sys.argv or 'pytest' in sys.argv[0]:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

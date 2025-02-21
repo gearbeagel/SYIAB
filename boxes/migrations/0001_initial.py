@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -21,7 +20,9 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
                 ('date_opening', models.DateTimeField(auto_now=True)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'creator',
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -29,7 +30,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('content_type', models.CharField(choices=[('T', 'Text'), ('I', 'Image'), ('V', 'Video'), ('A', 'Audio'), ('F', 'File')], default='T', max_length=1)),
+                ('content_type', models.CharField(
+                    choices=[('T', 'Text'), ('I', 'Image'), ('V', 'Video'), ('A', 'Audio'), ('F', 'File')], default='T',
+                    max_length=1)),
                 ('box', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='boxes.box')),
             ],
         ),

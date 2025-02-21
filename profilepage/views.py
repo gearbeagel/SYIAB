@@ -1,4 +1,5 @@
 import random
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -14,7 +15,6 @@ from profilepage.models import ProfilePicture
 from profilepage.serializers import UserSerializer
 
 
-# Function-based views for rendering HTML pages
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile_picture, created = ProfilePicture.objects.get_or_create(user=user)
@@ -53,7 +53,6 @@ def delete_profile(request, username):
     return redirect('home')
 
 
-# DRF ViewSet for API
 class ProfileViewSet(viewsets.ViewSet):
     queryset = User.objects.all()
 

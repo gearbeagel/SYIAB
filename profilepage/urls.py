@@ -1,10 +1,8 @@
-from django.conf.urls.static import static
 from django.urls import path
 from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
 import profilepage.views as pfv
-from SYIAB import settings
 
 # DRF Router
 router = DefaultRouter()

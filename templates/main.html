@@ -46,7 +46,8 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #2F3D99;"
                     data-bs-theme="dark">
-                    <li><a class="dropdown-item" style="color: white" href="{% url 'view_profile' username=user.username %}">Profile</a></li>
+                    <li><a class="dropdown-item" style="color: white"
+                           href="{% url 'view_profile' username=user.username %}">Profile</a></li>
                     <li><a class="dropdown-item" style="color: white" href="/api">Django Rest Framework</a></li>
                     <li>
                         <hr class="dropdown-divider">
@@ -58,7 +59,7 @@
     </header>
 
     <main>
-        <div class="position-fixed top-0 end-0 p-3 mt-5"> 
+        <div class="position-fixed top-0 end-0 p-3 mt-5">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -84,7 +85,8 @@
                     <h1>Your Boxes</h1>
                     <a href="{% url 'create_box' %}" title='Create a new box'>
                         <button class="btn btn-primary btn-floating" style="border-radius: 20px">Create a new box <i
-                            class="fas fa-plus"></i></button></a>
+                                class="fas fa-plus"></i></button>
+                    </a>
                     {% if boxes %}
                         <div class="grid-container mt-5 justify-content-center"
                              data-masonry='{"percentPosition": true }'>

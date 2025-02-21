@@ -5,7 +5,6 @@ from django.utils import timezone
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from SYIAB import settings
 from boxes.forms import BoxForm, MemoryForm
 from boxes.models import Box, Memory
 from boxes.serializers import BoxSerializer, MemorySerializer
@@ -143,6 +142,7 @@ class BoxViewSet(viewsets.ViewSet):
         box = get_object_or_404(Box, pk=pk)
         box.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class MemoryViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):

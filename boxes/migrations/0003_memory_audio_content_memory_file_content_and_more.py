@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('boxes', '0002_alter_box_date_opening_memory_delete_component'),
     ]

@@ -9,6 +9,7 @@ class BoxAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'creator', 'date_created', 'date_opening', 'status', 'category')
     prepopulated_fields = {'slug': ('name',)}
 
+
 @admin.register(Memory)
 class MemoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'box', 'content_type', 'description')

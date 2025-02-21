@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('boxes', '0004_box_status_alter_box_date_created'),
     ]
@@ -13,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='box',
             name='category',
-            field=models.CharField(choices=[('FA', 'Family'), ('TR', 'Travel'), ('FR', 'Friends'), ('LO', 'Love'), ('HO', 'Hobby'), ('O', 'Other')], default='O', max_length=100),
+            field=models.CharField(
+                choices=[('FA', 'Family'), ('TR', 'Travel'), ('FR', 'Friends'), ('LO', 'Love'), ('HO', 'Hobby'),
+                         ('O', 'Other')], default='O', max_length=100),
         ),
     ]

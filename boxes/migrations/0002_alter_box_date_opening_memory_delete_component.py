@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('boxes', '0001_initial'),
     ]
@@ -21,7 +20,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('content_type', models.CharField(choices=[('T', 'Text'), ('I', 'Image'), ('V', 'Video'), ('A', 'Audio'), ('F', 'File')], default='T', max_length=1)),
+                ('content_type', models.CharField(
+                    choices=[('T', 'Text'), ('I', 'Image'), ('V', 'Video'), ('A', 'Audio'), ('F', 'File')], default='T',
+                    max_length=1)),
                 ('description', models.TextField()),
                 ('box', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='boxes.box')),
             ],

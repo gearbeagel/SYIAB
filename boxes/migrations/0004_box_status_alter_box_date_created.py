@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('boxes', '0003_memory_audio_content_memory_file_content_and_more'),
     ]
@@ -14,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='box',
             name='status',
-            field=models.CharField(choices=[('E', 'Edited'), ('L', 'Locked'), ('O', 'Opened')], default='E', max_length=100),
+            field=models.CharField(choices=[('E', 'Edited'), ('L', 'Locked'), ('O', 'Opened')], default='E',
+                                   max_length=100),
         ),
         migrations.AlterField(
             model_name='box',
