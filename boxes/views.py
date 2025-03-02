@@ -12,7 +12,6 @@ from boxes.serializers import BoxSerializer, MemorySerializer
 
 # Create your views here.
 
-# Function-based views for rendering HTML pages
 def create_a_box(request):
     context = {}
     form = BoxForm(request.POST)
@@ -31,6 +30,8 @@ def create_a_box(request):
         message = "Your box has been created."
         messages.success(request, message, extra_tags='success')
         return redirect('home')
+    else:
+        return render(request, 'boxes/create_edit_box.html', context)
 
 
 def view_box(request, box_id):

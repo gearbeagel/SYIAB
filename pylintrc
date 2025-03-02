@@ -1,0 +1,2 @@
+[MASTER]
+ignore=venv,migrations,manage.py,settings.py,env,.env,.venv
